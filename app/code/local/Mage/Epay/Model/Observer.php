@@ -121,7 +121,7 @@ class Mage_Epay_Model_Observer
                     $read = Mage::getSingleton('core/resource')->getConnection('core_read');
                     $row = $read->fetchRow("select * from epay_order_status where orderid = '" . $orderModel->getIncrementId() . "'");
 
-                    if ($row["status"] == '0') {
+                    if (!$row || $row["status"] == '0') {
                         $orderModel->cancel();
                         $message = Mage::helper('epay')->__("Order was auto canceled because no payment has been made.");
                         $orderModel->addStatusToHistory($orderModel->getStatus(), $message);
